@@ -37,6 +37,7 @@ DATABASE_USERNAME=username
 DATABASE_PASSWORD=password
 DATABASE_LOGGING=true
 JWT_SECRET=your_jwt_secret
+JWT_EXPIRES_IN=60s
 ```
 
 ### Running the App
