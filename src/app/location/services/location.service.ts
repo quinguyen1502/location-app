@@ -11,8 +11,11 @@ export class LocationService {
     return this.locationRepository.findTrees();
   }
 
-  findOne(id: number) {
-    return this.locationRepository.findOneBy({ id });
+  async findOne(id: number) {
+    const location = await this.locationRepository.findOneBy({ id });
+    return location
+      ? this.locationRepository.findDescendantsTree(location)
+      : null;
   }
 
   async create(key: string, parentId: number, data: Location) {

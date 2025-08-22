@@ -19,18 +19,18 @@ async function bootstrap() {
     .setTitle('Location API')
     .setDescription('API documentation for the Location service')
     .setVersion('1.0')
-    .addBearerAuth(
-      {
-        type: 'http',
-        scheme: 'bearer',
-        bearerFormat: 'JWT',
-        name: 'Authorization',
-        description: 'Enter JWT token',
-        in: 'header',
-      },
-      'access-token',
-    )
-    .addSecurityRequirements('access-token')
+    // .addBearerAuth(
+    //   {
+    //     type: 'http',
+    //     scheme: 'bearer',
+    //     bearerFormat: 'JWT',
+    //     name: 'Authorization',
+    //     description: 'Enter JWT token',
+    //     in: 'header',
+    //   },
+    //   'access-token',
+    // )
+    // .addSecurityRequirements('access-token')
     .build();
   const document = SwaggerModule.createDocument(app, config);
   SwaggerModule.setup(`${globalPrefix}/docs`, app, document);

@@ -11,7 +11,7 @@ import {
   // UseGuards,
 } from '@nestjs/common';
 import { ParseIntPipe } from '@nestjs/common/pipes/parse-int.pipe';
-import { ApiOperation } from '@nestjs/swagger';
+import { ApiOperation, ApiResponse } from '@nestjs/swagger';
 // import { AuthGuard } from '../../auth/auth.guard';
 import { CreateLocationDto, UpdateLocationDto } from './locations.dto';
 import { LocationService } from '../services/location.service';
@@ -23,12 +23,19 @@ export class LocationsController {
   constructor(private readonly LocationService: LocationService) {}
 
   @ApiOperation({ summary: 'Get all locations' })
+  @ApiResponse({
+    status: 200,
+    description: 'List of all locations',
+    type: [Location],
+  })
   @Get()
   findAll() {
     return this.LocationService.findAll();
   }
 
   @ApiOperation({ summary: 'Get a location by ID' })
+  @ApiResponse({ status: 200, description: 'Location found', type: Location })
+  @ApiResponse({ status: 404, description: 'Location not found' })
   @Get(':id')
   async findOne(@Param('id', ParseIntPipe) id: number) {
     const result = await this.LocationService.findOne(id);
@@ -42,6 +49,12 @@ export class LocationsController {
     summary:
       'Create a new location with auto-generated number by parent location and key',
   })
+  @ApiResponse({
+    status: 201,
+    description: 'Location created successfully',
+    type: Location,
+  })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
   @Post()
   create(@Body() createLocationDto: CreateLocationDto) {
     const { key, parentId, ...locationData } = createLocationDto;
@@ -49,6 +62,9 @@ export class LocationsController {
   }
 
   @ApiOperation({ summary: 'Update a location by ID' })
+  @ApiResponse({ status: 202, description: 'Location updated successfully' })
+  @ApiResponse({ status: 404, description: 'Location not found' })
+  @ApiResponse({ status: 400, description: 'Bad Request' })
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -65,6 +81,8 @@ export class LocationsController {
   }
 
   @ApiOperation({ summary: 'Delete a location by ID' })
+  @ApiResponse({ status: 204, description: 'Location deleted successfully' })
+  @ApiResponse({ status: 404, description: 'Location not found' })
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
     const result = await this.LocationService.delete(id);
