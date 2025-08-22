@@ -7,6 +7,7 @@ import {
   Body,
   Param,
   HttpStatus,
+  NotFoundException,
   // UseGuards,
 } from '@nestjs/common';
 import { ParseIntPipe } from '@nestjs/common/pipes/parse-int.pipe';
@@ -29,8 +30,12 @@ export class LocationsController {
 
   @ApiOperation({ summary: 'Get a location by ID' })
   @Get(':id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return this.LocationService.findOne(id);
+  async findOne(@Param('id', ParseIntPipe) id: number) {
+    const result = await this.LocationService.findOne(id);
+    if (!result) {
+      throw new NotFoundException(`Location with ID ${id} not found`);
+    }
+    return result;
   }
 
   @ApiOperation({
@@ -38,7 +43,7 @@ export class LocationsController {
       'Create a new location with auto-generated number by parent location and key',
   })
   @Post()
-  async create(@Body() createLocationDto: CreateLocationDto) {
+  create(@Body() createLocationDto: CreateLocationDto) {
     const { key, parentId, ...locationData } = createLocationDto;
     return this.LocationService.create(key, parentId, locationData as Location);
   }
@@ -49,14 +54,23 @@ export class LocationsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() updateLocationDto: UpdateLocationDto,
   ) {
-    await this.LocationService.update(id, updateLocationDto as Location);
+    const result = await this.LocationService.update(
+      id,
+      updateLocationDto as Location,
+    );
+    if (!result.affected) {
+      throw new NotFoundException(`Location with ID ${id} not found`);
+    }
     return HttpStatus.ACCEPTED;
   }
 
   @ApiOperation({ summary: 'Delete a location by ID' })
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
-    await this.LocationService.delete(id);
+    const result = await this.LocationService.delete(id);
+    if (!result.affected) {
+      throw new NotFoundException(`Location with ID ${id} not found`);
+    }
     return HttpStatus.NO_CONTENT;
   }
 }
