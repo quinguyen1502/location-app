@@ -3,7 +3,7 @@ import { AppDataSource } from '../../data-source';
 import { Location } from '../entities/Location';
 
 @Injectable()
-export class LocationsService {
+export class LocationService {
   private readonly locationRepository =
     AppDataSource.getTreeRepository(Location);
 
