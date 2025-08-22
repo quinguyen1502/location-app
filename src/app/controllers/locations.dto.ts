@@ -2,6 +2,7 @@ import { ApiProperty } from '@nestjs/swagger';
 import {
   IsInt,
   IsNotEmpty,
+  IsNumber,
   IsOptional,
   IsString,
   MaxLength,
@@ -21,7 +22,7 @@ export class CreateLocationDto {
   name: string;
 
   @ApiProperty({ description: 'The area of the location' })
-  @IsInt()
+  @IsNumber()
   @IsOptional()
   area: number;
 
@@ -39,7 +40,7 @@ export class UpdateLocationDto {
   name: string;
 
   @ApiProperty({ description: 'The area of the location' })
-  @IsInt()
+  @IsNumber()
   @IsOptional()
   area: number;
 }

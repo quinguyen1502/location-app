@@ -23,7 +23,7 @@ export class Location {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ type: 'float', nullable: true })
   area: number;
 
   @TreeParent({ onDelete: 'CASCADE' })
