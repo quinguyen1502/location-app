@@ -33,11 +33,18 @@ export class LocationsController {
     return this.LocationService.findAll();
   }
 
-  @ApiOperation({ summary: 'Get a location by ID' })
-  @ApiResponse({ status: 200, description: 'Location found', type: Location })
-  @ApiResponse({ status: 404, description: 'Location not found' })
+  @ApiOperation({ summary: 'Retrieve a location by ID' })
+  @ApiResponse({
+    status: HttpStatus.OK,
+    description: 'Location found',
+    type: Location,
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Location not found',
+  })
   @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number) {
+  async retrieve(@Param('id', ParseIntPipe) id: number) {
     const result = await this.LocationService.findOne(id);
     if (!result) {
       throw new NotFoundException(`Location with ID ${id} not found`);
@@ -54,7 +61,7 @@ export class LocationsController {
     description: 'Location created successfully',
     type: Location,
   })
-  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
   @Post()
   create(@Body() createLocationDto: CreateLocationDto) {
     const { key, parentId, ...locationData } = createLocationDto;
@@ -62,9 +69,15 @@ export class LocationsController {
   }
 
   @ApiOperation({ summary: 'Update a location by ID' })
-  @ApiResponse({ status: 202, description: 'Location updated successfully' })
-  @ApiResponse({ status: 404, description: 'Location not found' })
-  @ApiResponse({ status: 400, description: 'Bad Request' })
+  @ApiResponse({
+    status: HttpStatus.ACCEPTED,
+    description: 'Location updated successfully',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Location not found',
+  })
+  @ApiResponse({ status: HttpStatus.BAD_REQUEST, description: 'Bad Request' })
   @Put(':id')
   async update(
     @Param('id', ParseIntPipe) id: number,
@@ -81,8 +94,14 @@ export class LocationsController {
   }
 
   @ApiOperation({ summary: 'Delete a location by ID' })
-  @ApiResponse({ status: 204, description: 'Location deleted successfully' })
-  @ApiResponse({ status: 404, description: 'Location not found' })
+  @ApiResponse({
+    status: HttpStatus.NO_CONTENT,
+    description: 'Location deleted successfully',
+  })
+  @ApiResponse({
+    status: HttpStatus.NOT_FOUND,
+    description: 'Location not found',
+  })
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
     const result = await this.LocationService.delete(id);
