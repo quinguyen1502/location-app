@@ -7,15 +7,18 @@ import {
   Body,
   Param,
   HttpStatus,
+  // UseGuards,
 } from '@nestjs/common';
 import { ParseIntPipe } from '@nestjs/common/pipes/parse-int.pipe';
-import { AppDataSource } from '../../data-source';
-import { CreateLocationDto, UpdateLocationDto } from './locations.dto';
 import { ApiOperation } from '@nestjs/swagger';
+import { AppDataSource } from '../../data-source';
+// import { AuthGuard } from '../../auth/auth.guard';
+import { CreateLocationDto, UpdateLocationDto } from './locations.dto';
 
 const locationRepository = AppDataSource.getTreeRepository('Location');
 
 @Controller('locations')
+// @UseGuards(AuthGuard) // Use it when you want to protect the route
 export class LocationsController {
   @ApiOperation({ summary: 'Get all locations' })
   @Get()
