@@ -29,13 +29,16 @@ Configure your database and JWT settings in the [.env](.env) file:
 
 ```
 ENV=development
+
 DATABASE_TYPE=postgres
 DATABASE_NAME=location_app
 DATABASE_HOST=localhost
 DATABASE_PORT=5432
 DATABASE_USERNAME=username
 DATABASE_PASSWORD=password
-DATABASE_LOGGING=true
+DATABASE_SYNCHRONIZE=true // Set to false on production.
+DATABASE_LOGGING=true // Set to false on production.
+
 JWT_SECRET=your_jwt_secret
 JWT_EXPIRES_IN=60s
 ```
