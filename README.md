@@ -97,7 +97,7 @@ npm run test:cov
 
 - [`src/main.ts`](src/main.ts): App entry point
 - [`src/app/app.module.ts`](src/app/app.module.ts): Main module
-- [`src/app/location`](src/app/location): Location feature modules, controllers, entities
+- [`src/app/location`](src/app/location): Location feature modules, controllers, entities, services
 - [`src/app/auth`](src/app/auth): Authentication module and guard
 
 ## License

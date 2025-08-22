@@ -11,25 +11,26 @@ import {
 } from '@nestjs/common';
 import { ParseIntPipe } from '@nestjs/common/pipes/parse-int.pipe';
 import { ApiOperation } from '@nestjs/swagger';
-import { AppDataSource } from '../../data-source';
 // import { AuthGuard } from '../../auth/auth.guard';
 import { CreateLocationDto, UpdateLocationDto } from './locations.dto';
-
-const locationRepository = AppDataSource.getTreeRepository('Location');
+import { LocationsService } from '../services/location.service';
+import { Location } from '../entities/Location';
 
 @Controller('locations')
 // @UseGuards(AuthGuard) // Use it when you want to protect the route
 export class LocationsController {
+  constructor(private readonly locationsService: LocationsService) {}
+
   @ApiOperation({ summary: 'Get all locations' })
   @Get()
   findAll() {
-    return locationRepository.findTrees();
+    return this.locationsService.findAll();
   }
 
   @ApiOperation({ summary: 'Get a location by ID' })
   @Get(':id')
   findOne(@Param('id', ParseIntPipe) id: number) {
-    return locationRepository.findOneBy({ id });
+    return this.locationsService.findOne(id);
   }
 
   @ApiOperation({
@@ -39,21 +40,11 @@ export class LocationsController {
   @Post()
   async create(@Body() createLocationDto: CreateLocationDto) {
     const { key, parentId, ...locationData } = createLocationDto;
-    const location = locationRepository.create(locationData);
-    let number: string = key;
-
-    if (parentId) {
-      const parent = await locationRepository.findOneBy({ id: parentId });
-
-      if (parent) {
-        number = parent.number + '-' + key;
-        location.parent = parent;
-      }
-    }
-
-    location.number = number;
-
-    return locationRepository.save(location);
+    return this.locationsService.create(
+      key,
+      parentId,
+      locationData as Location,
+    );
   }
 
   @ApiOperation({ summary: 'Update a location by ID' })
@@ -62,14 +53,14 @@ export class LocationsController {
     @Param('id', ParseIntPipe) id: number,
     @Body() updateLocationDto: UpdateLocationDto,
   ) {
-    await locationRepository.update(id, updateLocationDto);
+    await this.locationsService.update(id, updateLocationDto as Location);
     return HttpStatus.ACCEPTED;
   }
 
   @ApiOperation({ summary: 'Delete a location by ID' })
   @Delete(':id')
   async delete(@Param('id', ParseIntPipe) id: number) {
-    await locationRepository.delete(id);
+    await this.locationsService.delete(id);
     return HttpStatus.NO_CONTENT;
   }
 }
