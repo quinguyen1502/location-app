@@ -1,7 +1,7 @@
 import { Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
 import { ThrottlerModule } from '@nestjs/throttler';
-import { LocationsController } from './controllers/locations.controller';
+import { LocationModule } from './location/location.module';
 import { AppDataSource } from './data-source';
 
 @Module({
@@ -15,8 +15,8 @@ import { AppDataSource } from './data-source';
         },
       ],
     }),
+    LocationModule,
   ],
-  controllers: [LocationsController],
 })
 export class AppModule {
   onModuleInit() {

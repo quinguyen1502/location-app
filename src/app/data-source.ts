@@ -1,7 +1,7 @@
 import 'dotenv/config';
 
 import { DataSource } from 'typeorm';
-import { Location } from './entities/Location';
+import { Location } from './location/entities/Location';
 
 export const AppDataSource = new DataSource({
   type: process.env.DATABASE_TYPE as 'postgres' | 'mysql',

@@ -9,7 +9,7 @@ import {
   HttpStatus,
 } from '@nestjs/common';
 import { ParseIntPipe } from '@nestjs/common/pipes/parse-int.pipe';
-import { AppDataSource } from '../data-source';
+import { AppDataSource } from '../../data-source';
 import { CreateLocationDto, UpdateLocationDto } from './locations.dto';
 import { ApiOperation } from '@nestjs/swagger';
 
