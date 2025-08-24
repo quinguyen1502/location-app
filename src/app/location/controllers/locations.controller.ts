@@ -17,7 +17,10 @@ import { CreateLocationDto, UpdateLocationDto } from './locations.dto';
 import { LocationService } from '../services/location.service';
 import { Location } from '../entities/Location';
 
-@Controller('locations')
+@Controller({
+  path: 'locations',
+  version: '1',
+})
 // @UseGuards(AuthGuard) // Use it when you want to protect the route
 export class LocationsController {
   constructor(private readonly LocationService: LocationService) {}
