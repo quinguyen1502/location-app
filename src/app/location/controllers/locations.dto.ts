@@ -9,7 +9,12 @@ import {
 } from 'class-validator';
 
 export class CreateLocationDto {
-  @ApiProperty({ description: 'The unique key of the location', default: 'A' })
+  @ApiProperty({
+    description: `The unique key of the location to build the hierarchy structure (the location number).
+      It must be unique within the parent location and its siblings.
+      It is not stored in the database.`,
+    default: 'A',
+  })
   @IsString()
   @IsNotEmpty()
   @MaxLength(100)
