@@ -65,11 +65,11 @@ Swagger UI is available at [http://localhost:3000/api/docs](http://localhost:300
 
 ### Location Endpoints
 
-- `GET /api/locations` — List all locations
-- `GET /api/locations/:id` — Get location by ID
-- `POST /api/locations` — Create a new location
-- `PUT /api/locations/:id` — Update a location
-- `DELETE /api/locations/:id` — Delete a location
+- `GET /api/v1/locations` — List all locations
+- `GET /api/v1/locations/:id` — Get location by ID
+- `POST /api/v1/locations` — Create a new location
+- `PUT /api/v1/locations/:id` — Update a location
+- `DELETE /api/v1/locations/:id` — Delete a location
 
 See [`LocationsController`](src/app/location/controllers/locations.controller.ts) for details.
 
